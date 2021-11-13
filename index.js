@@ -22,6 +22,7 @@ async function run() {
         const productsCollection = database.collection("products");
         const ordersCollection = database.collection("orders");
         const usersCollection = database.collection("users");
+        const reviewCollection = database.collection("review");
         console.log("connected");
 
 
@@ -164,19 +165,24 @@ async function run() {
                 isAdmin = true;
             }
             res.json({admin: isAdmin})
+        });
+
+        // Review 
+
+        app.post('/review', async (req, res)=>{
+            const review = req.body;
+            const result = await reviewCollection.insertOne(review);
+            res.json(result);
+        });
+
+        app.get('/review', async (req, res)=>{
+            const cursor = reviewCollection.find({});
+            const result = await cursor.toArray();
+            res.json(result);
         })
 
 
-
  
-
-
-
-
-
-
-
-
 
 
     }
